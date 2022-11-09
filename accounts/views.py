@@ -117,13 +117,13 @@ class RegistrationViewSet(ModelViewSet, TokenObtainPairView):
         user_data["password"] = password
         send_activation_mail(user_data, request)
         send_random_password_mail(user_data, user_data["password"], request)
-        refresh = RefreshToken.for_user(user)
-        res = {"refresh": str(refresh), "access": str(refresh.access_token)}
+        refresh = "RefreshToken.for_user(user)"
+        # res = {"refresh": str(refresh), "access": str(refresh.access_token)}
         return Response(
             {
                 "user": serializer.data,
-                "refresh": res["refresh"],
-                "token": res["access"],
+                # "refresh": res["refresh"],
+                # "token": res["access"],
             },
             status=status.HTTP_201_CREATED,
         )

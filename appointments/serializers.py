@@ -97,7 +97,7 @@ class MedicationBagSerializer(serializers.ModelSerializer):
 class AmbulanceBookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = AmbulanceBooking
-        fields = ("id", "patient", "driver", "arrived"
+        fields = ("id", "patient", "driver", "arrived",
                   "longitude", "latitude", "reason", "price",
                   "pick_up_time", "drop_off_time", "confirmed",
                   "cancelled", 'receptionist',

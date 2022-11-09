@@ -17,7 +17,7 @@ def send_activation_mail(user_data, request):
     current_site = get_current_site(request).domain
     mail_subject = "Verify Your Account."
     to_mail = user.email
-    token = RefreshToken.for_user(user).access_token
+    token = "RefreshToken.for_user(user).access_token"
     relativeLink = reverse('api:email-verify')
     absurl = "http://"+current_site+relativeLink+"?token="+str(token)
     message = f"""
@@ -35,7 +35,7 @@ This is an automatically generated email. Please do not reply.
         body=message,
         to=[to_mail]
     )
-    email.send()
+    # email.send()
 
 
 def send_random_password_mail(user, password, request):
@@ -62,7 +62,7 @@ The Tabibu Health Care Team.
         body=message,
         to=[to_mail]
     )
-    email.send()
+    # email.send()
 
 
 def send_password_reset_email(user_data, request):
@@ -94,4 +94,4 @@ Thanks, Tabibu Team.
         body=message,
         to=[to_mail]
     )
-    email.send()
+    # email.send()

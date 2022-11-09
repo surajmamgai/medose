@@ -93,6 +93,7 @@ class User(AbstractBaseUser, TrackingModel):
     is_admin = models.BooleanField(_('admin'), default=False)
     is_staff = models.BooleanField(_('staff'), default=False)
     timestamp = models.DateTimeField(_("timestamp"), auto_now_add=True)
+    date_joined = models.DateTimeField(_("timestamp"), auto_now_add=True)
 
     def __str__(self):
         return self.username
@@ -101,7 +102,7 @@ class User(AbstractBaseUser, TrackingModel):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 
-    def has_perm(self, perm, obj=None):
+    def has_perms(self, perm, obj=None):
         return True
 
     def has_module_perms(self, app_label):

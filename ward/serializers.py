@@ -43,7 +43,7 @@ class WardBookingSerializer(serializers.ModelSerializer):
         model = WardBooking
         fields = (
             "id", "slot", "appointment", "admission_date",
-            "date_expected_to_leave", "discharde_date",
+            "date_expected_to_leave", "discharge_date",
             "total_amount", "nok_full_name", "relationship",
             "nok_phone", "on_waiting_list"
         )

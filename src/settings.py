@@ -2,9 +2,12 @@ import os
 from datetime import timedelta
 from pathlib import Path
 import dj_database_url
+from oscar.defaults import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+location = lambda x: os.path.join(
+    os.path.dirname(os.path.realpath(__file__)), x)
 
 
 # Quick-start development settings - unsuitable for production
@@ -14,7 +17,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-tfx^8&z#_t)^n1@h4#q!%oowb^-^b10#+&=@qjv&541pii(28m"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
 ALLOWED_HOSTS = ["*"]
@@ -27,13 +30,54 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # 3rd Party Apps
+    'django.contrib.sites',
+    'django.contrib.flatpages',
+
+    'oscar.config.Shop',
+    'oscar.apps.analytics.apps.AnalyticsConfig',
+    'oscar.apps.checkout.apps.CheckoutConfig',
+    'oscar.apps.address.apps.AddressConfig',
+    'oscar.apps.shipping.apps.ShippingConfig',
+    'oscar.apps.catalogue.apps.CatalogueConfig',
+    'oscar.apps.catalogue.reviews.apps.CatalogueReviewsConfig',
+    'oscar.apps.communication.apps.CommunicationConfig',
+    'oscar.apps.partner.apps.PartnerConfig',
+    'oscar.apps.basket.apps.BasketConfig',
+    'oscar.apps.payment.apps.PaymentConfig',
+    'oscar.apps.offer.apps.OfferConfig',
+    'oscar.apps.order.apps.OrderConfig',
+    'oscar.apps.customer.apps.CustomerConfig',
+    'oscar.apps.search.apps.SearchConfig',
+    'oscar.apps.voucher.apps.VoucherConfig',
+    'oscar.apps.wishlists.apps.WishlistsConfig',
+    'oscar.apps.dashboard.apps.DashboardConfig',
+    'oscar.apps.dashboard.reports.apps.ReportsDashboardConfig',
+    'oscar.apps.dashboard.users.apps.UsersDashboardConfig',
+    'oscar.apps.dashboard.orders.apps.OrdersDashboardConfig',
+    'oscar.apps.dashboard.catalogue.apps.CatalogueDashboardConfig',
+    'oscar.apps.dashboard.offers.apps.OffersDashboardConfig',
+    'oscar.apps.dashboard.partners.apps.PartnersDashboardConfig',
+    'oscar.apps.dashboard.pages.apps.PagesDashboardConfig',
+    'oscar.apps.dashboard.ranges.apps.RangesDashboardConfig',
+    'oscar.apps.dashboard.reviews.apps.ReviewsDashboardConfig',
+    'oscar.apps.dashboard.vouchers.apps.VouchersDashboardConfig',
+    'oscar.apps.dashboard.communications.apps.CommunicationsDashboardConfig',
+    'oscar.apps.dashboard.shipping.apps.ShippingDashboardConfig',
+    "oscar_invoices",
+
+    # 3rd-party apps that oscar depends on
+    'widget_tweaks',
+    'haystack',
+    'treebeard',
+    'sorl.thumbnail',   # Default thumbnail backend, can be replaced
+    'django_tables2',
     "rest_framework",
     "django_countries",
     "phonenumber_field",
     "rest_framework_simplejwt.token_blacklist",
     "drf_yasg",
     "corsheaders",
+    "oscarapi",
     # Local Apps
     "accounts.apps.AccountsConfig",
     "appointments.apps.AppointmentsConfig",
@@ -42,7 +86,7 @@ INSTALLED_APPS = [
     "ward.apps.WardConfig",
 ]
 PHONENUMBER_DB_FORMAT = "NATIONAL"
-PHONENUMBER_DEFAULT_REGION = "KE"
+PHONENUMBER_DEFAULT_REGION = "IN"
 
 AUTH_USER_MODEL = "accounts.User"
 
@@ -92,10 +136,14 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'oscar.apps.basket.middleware.BasketMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 ]
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 ROOT_URLCONF = "src.urls"
+
+SITE_ID = 1
 
 TEMPLATES = [
     {
@@ -108,6 +156,10 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                'oscar.apps.search.context_processors.search_form',
+                'oscar.apps.checkout.context_processors.checkout',
+                'oscar.apps.communication.notifications.context_processors.notifications',
+                'oscar.core.context_processors.metadata',
             ],
         },
     },
@@ -117,55 +169,30 @@ WSGI_APPLICATION = "src.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-DB_USERNAME = "postgres"
-DB_PASSWORD = "tabibu"
-DB_DATABASE = "tabibu"
-DB_HOST = "localhost"
-DB_PORT = "5432"
-
-DB_IS_AVAIL = all([DB_USERNAME, DB_DATABASE, DB_PASSWORD, DB_HOST, DB_PORT])
-if DB_IS_AVAIL and DEBUG == False:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": DB_DATABASE,
-            "USER": DB_USERNAME,
-            "PASSWORD": DB_PASSWORD,
-            "HOST": DB_HOST,
-            "PORT": DB_PORT,
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': str(os.path.join(BASE_DIR, 'db.sqlite3')),
     }
-    print(DATABASES)
+}
+
 
 
 if DEBUG == False:
-
-    db_from_env = dj_database_url.config()
-    DATABASES["default"].update(db_from_env)
-    DATABASES["default"]["CONN_MAX_AGE"] = 500
     CORS_ALLOWED_ORIGINS = []
 
     # SSL and TLS settings
-    CORS_REPLACE_HTTPS_REFERER = True
+    CORS_REPLACE_HTTPS_REFERER = False
     HOST_SCHEME = "https://"
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_SSL_REDIRECT = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = False
     SECURE_HSTS_SECONDS = 1000000
-    SECURE_FRAME_DENY = True
+    SECURE_FRAME_DENY = False
 
-    # Whitenoise storage
-    # STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
+
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 EMAIL_USE_TLS = True
@@ -192,6 +219,13 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
+        'PATH': location('whoosh_index'),
+    },
+}
 
 
 # Internationalization

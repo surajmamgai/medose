@@ -235,7 +235,7 @@ class Migration(migrations.Migration):
                 ('bio', models.TextField(blank=True, null=True, verbose_name='bio')),
                 ('profile_picture', models.ImageField(default='default.png', upload_to='profile_pics')),
                 ('id_no', models.CharField(blank=True, max_length=58, null=True, verbose_name='National ID')),
-                ('nationality', django_countries.fields.CountryField(default='KE', max_length=57, verbose_name='Country')),
+                ('nationality', django_countries.fields.CountryField(default='IN', max_length=57, verbose_name='Country')),
                 ('town', models.CharField(blank=True, max_length=57, null=True, verbose_name='town')),
                 ('estate', models.CharField(blank=True, max_length=57, null=True, verbose_name='estate')),
                 ('gender', models.CharField(choices=[('Male', 'Male'), ('Female', 'Female'), ('Other', 'Other')], default='Male', max_length=20, verbose_name='gender')),
