@@ -127,7 +127,6 @@ dmypy.json
 .pyre/
 
 /venv
-*.sqlite3
 /migrations
 /_pycache_
 /notes.md
