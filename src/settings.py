@@ -180,7 +180,7 @@ WSGI_APPLICATION = "src.wsgi.application"
 import dj_database_url
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgres://dbmasteruser:pb2d80740f512c8cb41341e3291ed05b6b3d480a@ls-8efc531873f9711a073516bc6af529c705e28d77.cx5hjestaeeq.ap-south-1.rds.amazonaws.com:5432/postgres',
+        default='postgres://dbmasteruser:pb2d80740f512c8cb41341e3291ed05b6b3d480a@ls-a07cbeba589bf3627f5b8d491480fea2437bda3f.cx5hjestaeeq.ap-south-1.rds.amazonaws.com:5432/postgres',
         conn_max_age=600)}
 
 
