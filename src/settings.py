@@ -63,7 +63,7 @@ INSTALLED_APPS = [
     'oscar.apps.dashboard.vouchers.apps.VouchersDashboardConfig',
     'oscar.apps.dashboard.communications.apps.CommunicationsDashboardConfig',
     'oscar.apps.dashboard.shipping.apps.ShippingDashboardConfig',
-    "oscar_invoices",
+    # "oscar_invoices",
 
     # 3rd-party apps that oscar depends on
     'widget_tweaks',
@@ -77,7 +77,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     "drf_yasg",
     "corsheaders",
-    "oscarapi",
+    # "oscarapi",
     # Local Apps
     "accounts.apps.AccountsConfig",
     "appointments.apps.AppointmentsConfig",
