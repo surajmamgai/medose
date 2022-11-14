@@ -24,6 +24,7 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -66,6 +67,7 @@ INSTALLED_APPS = [
     # "oscar_invoices",
 
     # 3rd-party apps that oscar depends on
+    'rosetta',
     'widget_tweaks',
     'haystack',
     'treebeard',
@@ -77,6 +79,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     "drf_yasg",
     "corsheaders",
+    'fdadb',
     # "oscarapi",
     # Local Apps
     "accounts.apps.AccountsConfig",
@@ -84,6 +87,7 @@ INSTALLED_APPS = [
     "records.apps.RecordsConfig",
     "billing.apps.BillingConfig",
     "ward.apps.WardConfig",
+    "doctor"
 ]
 PHONENUMBER_DB_FORMAT = "NATIONAL"
 PHONENUMBER_DEFAULT_REGION = "IN"
@@ -138,6 +142,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     'oscar.apps.basket.middleware.BasketMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -253,6 +258,8 @@ USE_TZ = True
 
 
 STATIC_URL = "/static/"
+
+LOGIN_REDIRECT_URL = '/shop/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),

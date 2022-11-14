@@ -4,6 +4,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.documentation import include_docs_urls
 from django.apps import apps
+from django.conf.urls import include, re_path
 
 admin.site.site_header = 'Medose Admin'                 # default: "Django Administration"
 admin.site.index_title = 'Medose Data'                  # default: "Site administration"
@@ -14,6 +15,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
     path("docs/", include_docs_urls(title='MEDOSE API', description="All medose API's collection")),
+    path('dashboard/', include('doctor.urls', namespace="doctor")),
 
     # The Django admin is not officially supported; expect breakage.
     # Nonetheless, it's often useful for debugging.
@@ -25,3 +27,8 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if 'rosetta' in settings.INSTALLED_APPS:
+    urlpatterns += [
+        re_path(r'^rosetta/', include('rosetta.urls'))
+    ]

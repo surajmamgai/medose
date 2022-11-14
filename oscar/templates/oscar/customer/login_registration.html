@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block title %}
-    {% trans 'Login or register' %} | {{ block.super }}
+    {% trans 'Login' %} | {{ block.super }}
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -11,7 +11,7 @@
             <li class="breadcrumb-item">
                 <a href="{{ homepage_url }}">{% trans 'Home' %}</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">{% trans 'Login or register' %}</li>
+            <li class="breadcrumb-item active" aria-current="page">{% trans 'Login' %}</li>
         </ol>
     </nav>
 {% endblock %}
@@ -31,12 +31,13 @@
             </form>
         </div>
         <div class="col-sm-6 register_form">
-            <form id="register_form" action="{{ request.get_full_path }}" method="post" class="card card-body bg-light">
+            <img src="https://www.freeiconspng.com/uploads/hand-writing-png-15.jpg" style="width: -webkit-fill-available;" />
+            {% comment %} <form id="register_form" action="{{ request.get_full_path }}" method="post" class="card card-body bg-light">
                 <h2>{% trans 'Register' %}</h2>
                 {% csrf_token %}
                 {% include "oscar/partials/form_fields.html" with form=registration_form %}
                 <button name="registration_submit" type="submit" value="Register" class="btn btn-lg btn-primary" data-loading-text="{% trans 'Registering...' %}">{% trans 'Register' %}</button>
-            </form>
+            </form> {% endcomment %}
         </div>
     </div>
 

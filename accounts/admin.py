@@ -3,18 +3,17 @@ from django.contrib.auth.models import Group
 
 from accounts.models import (Administrator, Doctor, Driver, Labtech, Nurse, Patient,
                              Pharmacist, Receptionist, User, Departments)
-admin.site.unregister(Group)
 
 
 @admin.register(User)
 class UsersAdmin(admin.ModelAdmin):
-    list_display = ("username", "email", "role",
+    list_display = ("username", "email", "role", 
                     "phone", "is_active", "is_admin",
                     "is_staff", "timestamp")
     list_filter = ("is_active", "is_admin", "is_staff", "role")
 
 
-@admin.register(Patient)
+@admin.register(Patient) 
 class PatientsAdmin(admin.ModelAdmin):
     list_display = ("get_username", "blood_group",
                     "weight", "get_active",

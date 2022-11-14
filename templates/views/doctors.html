@@ -1,0 +1,14 @@
+{% extends '../index.html' %}
+{% load static i18n %}
+{% load render_table from django_tables2 %}
+
+{% block content %}
+<!-- Basic Bootstrap Table -->
+<div class="card">
+    <h5 class="card-header">Doctors</h5>
+    <a href="/dashboard/add-doctor/"> Add</a>
+    <div class="table-responsive text-nowrap">
+        {% render_table object_list %}
+    </div>
+  </div>
+{% endblock %}

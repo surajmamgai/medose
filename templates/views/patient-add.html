@@ -1,0 +1,17 @@
+{% extends '../index.html' %}
+{% load static i18n %}
+{% load render_table from django_tables2 %}
+
+{% block content %}
+<!-- Basic Bootstrap Table -->
+<div class="card">
+    <h5 class="card-header">Add Patient</h5>
+    <div style="text-align: center !important;" class="table-responsive text-nowrap">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit">
+        </form>
+    </div>
+  </div>
+{% endblock %}

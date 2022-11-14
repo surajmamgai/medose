@@ -1,6 +1,6 @@
 from enum import unique
 from django.contrib.auth import validators
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractUser, PermissionsMixin, BaseUserManager
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db import models
 from django.utils.translation import gettext as _
@@ -57,7 +57,7 @@ class CustomerManager(BaseUserManager):
         return user
 
 
-class User(AbstractBaseUser, TrackingModel):
+class User(AbstractUser, TrackingModel, PermissionsMixin):
     username_validator = UnicodeUsernameValidator()
 
     Role_choices = (
@@ -67,7 +67,7 @@ class User(AbstractBaseUser, TrackingModel):
         ('Nurse', 'Nurse'),
         ('Patient', 'Patient'),
         ('Pharmacist', 'Pharmacist'),
-        ('Receptionist', 'Receptionist'),
+        ('Receptionist', 'Receptionist'), 
     )
     username = models.CharField(
         _('username'),
@@ -110,6 +110,9 @@ class User(AbstractBaseUser, TrackingModel):
 
     def has_module_perms(self, app_label):
         return True
+
+    def is_superuser(self):
+        return self.is_admin
 
     @property
     def staff(self):
