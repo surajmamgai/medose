@@ -80,6 +80,7 @@ INSTALLED_APPS = [
     "drf_yasg",
     "corsheaders",
     'fdadb',
+    'django_messages',
     # "oscarapi",
     # Local Apps
     "accounts.apps.AccountsConfig",
@@ -166,6 +167,7 @@ TEMPLATES = [
                 'oscar.apps.checkout.context_processors.checkout',
                 'oscar.apps.communication.notifications.context_processors.notifications',
                 'oscar.core.context_processors.metadata',
+                'django_messages.context_processors.inbox',
             ],
         },
     },

@@ -50,16 +50,17 @@ def createAppointmentPayment(sender, instance, created, *args, **kwargs):
             )
             paymentQs.save()
     else:
-        paymentQs, _ = Payment.objects.update_or_create(
-            item="Appointment",
-            appointment=instance,
-            sub_unit=instance.appointment_fee,
-            balance=instance.appointment_fee,
-            type="Appointment",
-            total_amount=instance.department.consultation_fee,
-            quantity=1
-        )
-        paymentQs.save()
+        pass
+        # paymentQs, _ = Payment.objects.update_or_create(
+        #     item="Appointment",
+        #     appointment=instance,
+        #     sub_unit=instance.appointment_fee,
+        #     balance=instance.appointment_fee,
+        #     type="Appointment",
+        #     total_amount=instance.department.consultation_fee,
+        #     quantity=1
+        # )
+        # paymentQs.save()
 
 
 @receiver(post_save, sender=Payment)
@@ -234,15 +235,16 @@ def createTestPayment(sender, instance, created, *args, **kwargs):
             paymentObj.quantity = 1
             paymentObj.save()
     else:
-        paymentObj, _ = Payment.objects.update_or_create(
-            item=instance.test.lab_test,
-            appointment=instance.appointment,
-            sub_unit=instance.test.price,
-            type="Lab Test",
-            total_amount=instance.Total_unit_Price()
-        )
-        paymentObj.quantity = 1
-        paymentObj.save()
+        pass
+        # paymentObj, _ = Payment.objects.update_or_create(
+        #     item=instance.test.lab_test,
+        #     appointment=instance.appointment,
+        #     sub_unit=instance.test.price,
+        #     type="Lab Test",
+        #     total_amount=instance.Total_unit_Price()
+        # )
+        # paymentObj.quantity = 1
+        # paymentObj.save()
 
 
 @receiver(post_delete, sender=Test)

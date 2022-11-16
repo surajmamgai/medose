@@ -1,0 +1,45 @@
+{% extends '../index.html' %}
+{% load static i18n %}
+
+{% block content %}
+<!-- Basic Bootstrap Table -->
+<div class="card">
+    <h5 class="card-header">Patients</h5>
+    <div class="table-responsive text-nowrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Weight</th>
+            <th>Height</th>
+            <th>Blood</th>
+            <th>Phone</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody style="min-height: 100px" class="table-border-bottom-0">
+          {% for ap in data %}
+          <tr>
+            <td><strong>{{ ap.patient.user.full_name }}</strong></td>
+            <td>{{ ap.patient.gender }}</td>
+            <td>{{ ap.patient.weight }}</td>
+            <td>{{ ap.patient.height }}</td>
+            <td>{{ ap.patient.blood_group }}</td>
+            <td>{{ ap.patient.user.phone }}</td>
+            <td>
+                <div class="dropdown">
+                  <form method="POST">
+                    <input type="hidden" name='edit'>
+                    <input type="hidden" name='id' value="ap.id">
+                    <button type="submit" class="btn btn-primary"><i class="bx bx-chat me-1"></i> Chat</button>
+                  </form>
+                </div>
+              </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

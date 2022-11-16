@@ -8,9 +8,9 @@ from accounts.models import (Administrator, Doctor, Driver, Labtech, Nurse, Pati
 @admin.register(User)
 class UsersAdmin(admin.ModelAdmin):
     list_display = ("username", "email", "role", 
-                    "phone", "is_active", "is_admin",
-                    "is_staff", "timestamp")
-    list_filter = ("is_active", "is_admin", "is_staff", "role")
+                    "phone", "is_active",
+                    "is_staff")
+    list_filter = ("is_active", "is_staff", "role")
 
 
 @admin.register(Patient) 

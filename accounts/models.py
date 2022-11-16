@@ -22,7 +22,7 @@ class TrackingModel(models.Model):
 
 
 class CustomerManager(BaseUserManager):
-    def create_user(self, email, username, password=None, is_active=True, is_admin=False, is_staff=False, role=""):
+    def create_user(self, email, username, password=None, is_active=True, is_staff=False, role=""):
         if not email:
             raise ValueError("Users must have an email address")
         if not password:
@@ -35,7 +35,6 @@ class CustomerManager(BaseUserManager):
         )
         user_obj.set_password(password)
         user_obj.is_active = is_active
-        user_obj.is_admin = is_admin
         user_obj.is_staff = is_staff
         user_obj.role = role
         user_obj.save(using=self._db)
@@ -45,14 +44,14 @@ class CustomerManager(BaseUserManager):
     def create_staff(self, email, username, password=None):
         user = self.create_user(
             email, username, password=password, is_active=True,
-            is_staff=True, is_admin=False, role="Administrator",
+            is_staff=True, role="Administrator",
         )
         return user
 
     def create_superuser(self, email, username, password=None):
         user = self.create_user(
             email, username, password=password, is_active=True,
-            is_staff=True, is_admin=True, role="Administrator"
+            is_staff=True, role="Administrator"
         )
         return user
 
@@ -78,9 +77,6 @@ class User(AbstractUser, TrackingModel, PermissionsMixin):
             'unique': _("A user with that username already exists."),
         },
     )
-    full_name = models.CharField(_('full name'),
-                                 max_length=150, blank=True, null=True
-                                 )
     email = models.EmailField(_('email address'), unique=True, error_messages={
         'unique': ('A user with that email already exists.'),
     })
@@ -90,9 +86,8 @@ class User(AbstractUser, TrackingModel, PermissionsMixin):
     role = models.CharField(_('Role'), max_length=17, choices=Role_choices)
 
     is_active = models.BooleanField(_('active'), default=False)
-    is_admin = models.BooleanField(_('admin'), default=False)
     is_staff = models.BooleanField(_('staff'), default=False)
-    timestamp = models.DateTimeField(_("timestamp"), auto_now_add=True)
+    is_superuser = models.BooleanField(_('Super Admin'), default=False)
     date_joined = models.DateTimeField(_("timestamp"), auto_now_add=True)
 
     def __str__(self):
@@ -101,6 +96,9 @@ class User(AbstractUser, TrackingModel, PermissionsMixin):
     objects = CustomerManager()
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
+
+    def is_admin(self):
+        return self.is_superuser
 
     def has_perms(self, perm, obj=None):
         return True
@@ -111,8 +109,8 @@ class User(AbstractUser, TrackingModel, PermissionsMixin):
     def has_module_perms(self, app_label):
         return True
 
-    def is_superuser(self):
-        return self.is_admin
+    def full_name(self):
+        return self.first_name + ' ' + self.last_name
 
     @property
     def staff(self):

@@ -1,0 +1,39 @@
+{% extends '../index.html' %}
+{% load static i18n %}
+
+{% block content %}
+<!-- Basic Bootstrap Table -->
+<div class="card">
+    <h5 class="card-header">Finances</h5>
+    <div class="table-responsive text-nowrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Sr.No.</th>
+            <th>Amount</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody style="min-height: 100px" class="table-border-bottom-0">
+          {% for ap in data %}
+          <tr>
+            <td><strong>100430{{ ap.id }}</strong></td>
+            <td><span class="badge bg-label-primary me-1">{{ap.appointment_fee}}</span></td>
+            <td>Credit</td>
+            <td>Appointment Fees paid by patient</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        <thead>
+            <tr>
+              <th></th>
+              <th></th>
+              <th>Net PayOut</th>
+              <th>Rs. {{ user }}/-</th>
+            </tr>
+          </thead>
+      </table>
+    </div>
+  </div>
+{% endblock %}

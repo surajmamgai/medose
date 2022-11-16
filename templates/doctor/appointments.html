@@ -1,0 +1,51 @@
+{% extends '../index.html' %}
+{% load static i18n %}
+
+{% block content %}
+<!-- Basic Bootstrap Table -->
+<div class="card">
+    <h5 class="card-header">Appointments</h5>
+    <div class="table-responsive text-nowrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Patient</th>
+            <th>Dapartment</th>
+            <th>Fees</th>
+            <th>Date & Time</th>
+            <th>Status</th>
+            <th>Add to Calendar</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody style="min-height: 100px" class="table-border-bottom-0">
+          {% for ap in data %}
+          <tr>
+            <td><strong>{{ ap.patient.user.full_name }}</strong></td>
+            <td><span class="badge bg-label-primary me-1">{{ap.department}}</span></td>
+            <td>{{ ap.appointment_fee }}</td>
+            <td>{{ ap.appointment_time }}, {{ ap.appointment_date }}</td>
+            <td>{{ ap.status }}</td>
+            <td>
+              <div class="default">
+                  <a rel="noopener" target="_blank" href="https://outlook.office.com/calendar/0/deeplink/compose?body=Learn%20all%20about%20the%20rules%20of%20the%20Motorway%20and%20how%20to%20access%20the%20fast%20lane.%0A%0Ahttps%3A%2F%2Fen.wikipedia.org%2Fwiki%2FGridlock_%28Doctor_Who%29&enddt=2022-01-12T20%3A00%3A00%2B00%3A00&location=New%20Earth&path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt=2022-01-12T18%3A00%3A00%2B00%3A00&subject=Welcome%20to%20the%20Motorway" target="_blank" style="">Outlook</a> |
+                  <a rel="noopener" target="_blank" href="https://calendar.google.com/calendar/render?action=TEMPLATE&dates=20220112T180000Z%2F20220112T200000Z&details=Learn%20all%20about%20the%20rules%20of%20the%20Motorway%20and%20how%20to%20access%20the%20fast%20lane.%0A%0Ahttps%3A%2F%2Fen.wikipedia.org%2Fwiki%2FGridlock_%28Doctor_Who%29&location=New%20Earth&text=Welcome%20to%20the%20Motorway" target="_blank" style="">Google</a>
+              </div>
+            </td>
+            
+            <td>
+              <div class="dropdown">
+                <form method="POST">
+                  <input type="hidden" name='edit'>
+                  <input type="hidden" name='id' value="ap.id">
+                  <button type="submit" class="btn btn-primary"><i class="bx bx-edit-alt me-1"></i> Edit</button>
+                </form>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

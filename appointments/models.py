@@ -6,6 +6,7 @@ from time import timezone
 
 from accounts.models import (Administrator, Departments, Doctor, Driver, Patient, Pharmacist, Receptionist,
                              Labtech, TrackingModel)
+from fdadb.models import MedicationName
 from django.db import models
 from django.utils.translation import gettext as _
 
@@ -32,7 +33,7 @@ class Appointments(TrackingModel):
     time = dt.now().time()
     appointment_time = models.TimeField(
         _("appointment time"), default=time
-        # dt.now().time()
+        # dt.now().time() 
     )
 
     receptionist = models.ForeignKey(
@@ -90,7 +91,7 @@ class Test(TrackingModel):
     appointment = models.ForeignKey(
         Appointments, on_delete=models.PROTECT
     )
-    price = models.FloatField(_("price"),)
+    price = models.FloatField(_("price"), null=True)
     tested = models.BooleanField(_("tested"), default=False)
     date_tested = models.DateTimeField(_("date tested"),
                                        null=True, blank=True)
@@ -155,9 +156,10 @@ class Medicine(TrackingModel):
 
 
 class Medication(TrackingModel):
-    medicine = models.ForeignKey(Medicine, on_delete=models.DO_NOTHING)
+    medicine = models.ForeignKey(Medicine, on_delete=models.DO_NOTHING, null=True, blank=True)
+    medicineb = models.ForeignKey(MedicationName, on_delete=models.DO_NOTHING, null=True, blank=True)
     appointment = models.ForeignKey(Appointments, on_delete=models.PROTECT)
-    price = models.FloatField(_("price"))
+    price = models.FloatField(_("price"), null=True)
     paid = models.BooleanField(_("paid"), default=False)
     quantity = models.PositiveIntegerField(_("quantity"), default=1)
     notes = models.TextField(
