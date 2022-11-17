@@ -90,6 +90,9 @@ class User(AbstractUser, TrackingModel, PermissionsMixin):
     is_superuser = models.BooleanField(_('Super Admin'), default=False)
     date_joined = models.DateTimeField(_("timestamp"), auto_now_add=True)
 
+    def timestamp(self):
+        return self.date_joined
+        
     def __str__(self):
         return self.username
 
