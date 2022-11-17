@@ -27,15 +27,23 @@ def appointments(request):
 def patients(request):
     user = request.user
     print(user.id)
-    doctor = Doctor.objects.get(user=user.id)
-    model = Appointments.objects.filter(doctor=doctor.id)
+    try:
+        doctor = Doctor.objects.get(user=user.id)
+        model = Appointments.objects.filter(doctor=doctor.id)
+    except Exception as e:
+        doctor = Doctor.objects.get(user=1)
+        model = Appointments.objects.filter(doctor=doctor.id)
     return render(request, 'doctor/patients.html', {'data': model, 'user': user, 'doctor': doctor})
 
 def finances(request):
     user = request.user
     print(user.id)
-    doctor = Doctor.objects.get(user=user.id)
-    model = Appointments.objects.filter(doctor=doctor.id)
+    try:
+        doctor = Doctor.objects.get(user=user.id)
+        model = Appointments.objects.filter(doctor=doctor.id)
+    except Exception as e:
+        doctor = Doctor.objects.get(user=1)
+        model = Appointments.objects.filter(doctor=doctor.id)
     total = model.aggregate(Sum('appointment_fee'))['appointment_fee__sum'] 
     print(total)
     return render(request, 'doctor/finances.html', {'data': model, 'user': total, 'doctor': doctor})
