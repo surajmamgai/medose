@@ -133,3 +133,22 @@ def lab(request):
 def settings(request):
     return render(request, 'views/settings.html')
 
+
+
+def screen1(request):
+    return render(request, 'screen1.html')
+
+def screen2(request):
+    return render(request, 'screen2.html')
+
+def screen3(request):
+    return render(request, 'screen3.html')
+
+def screen4(request):
+    return render(request, 'screen4.html')
+
+def screen5(request):
+    return render(request, 'screen5.html')
+
+def screen6(request):
+    return render(request, 'screen6.html')                

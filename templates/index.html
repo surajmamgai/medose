@@ -58,12 +58,8 @@
         
         {% block wrapper %}
         <!-- Menu -->
-        {% if request.user.role == 'Doctor' %}
           {% include 'common/nav/doctor.html' %}
-        {% elif request.user.role == 'Patient' %}
-          {% include 'common/nav/patient.html' %}
-        {% endif %}
-
+          
         <!-- Layout container -->
         <div class="layout-page">
 

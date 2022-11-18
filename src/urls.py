@@ -15,7 +15,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
     path("docs/", include_docs_urls(title='MEDOSE API', description="All medose API's collection")),
-    path('dashboard/', include('doctor.urls', namespace="doctor")),
+    path('doctor/', include('doctor.urls', namespace="doctor")),
     path('my-dashboard/', include('patient.urls', namespace="patient")),
 
 
